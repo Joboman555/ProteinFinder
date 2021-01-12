@@ -1,0 +1,21 @@
+<h1>Protein Finder</h1>
+
+{% if error_message %}<p><strong>{{ error_message }}</strong></p>{% endif %}
+
+<form action="{% url 'dnaForm:start' %}" method="post">
+    {% csrf_token %}
+    <h4> Enter a DNA Search String below:</h4>
+    <input type="text" name="seq" id="seq">
+    <input type="submit" value="Search">
+</form>
+
+
+{% if latest_search_list %}
+<ul>
+    {% for search in latest_search_list %}
+    <li><a>{{ search.sequence }}</a></li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No polls are available.</p>
+{% endif %}
