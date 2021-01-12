@@ -17,6 +17,13 @@ def detail(request, sequence_search_id):
     return render(request, 'dnaForm/detail.html', {'search': search})
 
 def start(request):
-    search = SequenceSearch(sequence=request.POST['seq'], search_timestamp=timezone.now())
-    search.save()
+    try :
+        sequence = SequenceSearch.validate(request.POST['seq'])
+        search = SequenceSearch(sequence=sequence, search_timestamp=timezone.now())
+        search.save()
+    except Exception as ex:
+        latest_search_list = SequenceSearch.objects.order_by('-search_timestamp')[:5]
+        context = { 'latest_search_list': latest_search_list,
+                    'error_message': repr(ex)}
+        return render(request, 'dnaForm/index.html', context)
     return redirect('/form/')
