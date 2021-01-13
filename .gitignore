@@ -1,2 +1,4 @@
 *.sqlite3
 .idea/
+*.pyc
+dnaForm/__pycache__/
