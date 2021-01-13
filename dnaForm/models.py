@@ -36,6 +36,7 @@ class SequenceSearch(models.Model):
             for seq_record in SeqIO.parse(seq_file, "fasta"):
                 if sequence in seq_record:
                     return Match(seq_file, seq_record, sequence)
+        return None
 
 
 

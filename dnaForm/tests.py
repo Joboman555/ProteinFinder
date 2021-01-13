@@ -1,6 +1,7 @@
 from django.test import TestCase
 
 from .models import SequenceSearch
+from .match import Match
 
 class SequenceSearchTests(TestCase):
 
@@ -21,6 +22,11 @@ class SequenceSearchTests(TestCase):
         self.assertRaises(Exception, SequenceSearch.clean, "ACTX")
 
     def test_find_match(self):
-        """ should throw an exception on an incorrect sequence"""
+        """ should find a match for the given sequence"""
         match_path = SequenceSearch.findMatches("GGGAGAACCAGGTGGGATTGACAGTGGTAAATGTGTTGACCA").file_path
         self.assertEquals(match_path, "/Users/jonah.spear/Development/ProteinFinder/dnaForm/proteins/NC_000852.faa")
+
+    def test_getProteinName(self):
+        """ should make the following filepath into a protein name"""
+        match = Match("/Users/jonah.spear/Development/ProteinFinder/dnaForm/proteins/NC_000852.faa", "", "")
+        self.assertEquals(match.getProteinName(), "NC_000852")

@@ -19,9 +19,19 @@ def detail(request, sequence_search_id):
 def start(request):
     try :
         sequence = SequenceSearch.clean(request.POST['seq'])
-        print(SequenceSearch.findMatches(sequence))
-        search = SequenceSearch(sequence=sequence, search_timestamp=timezone.now())
-        search.save()
+        match = SequenceSearch.findMatches(sequence)
+        if match is not None:
+            search = SequenceSearch(sequence=sequence,
+                                    search_timestamp=timezone.now(),
+                                    protein_sequence=match.full_sequence,
+                                    protein_name=match.getProteinName())
+            search.save()
+        else:
+            search = SequenceSearch(sequence=sequence,
+                                    search_timestamp=timezone.now(),
+                                    protein_sequence="-",
+                                    protein_name="No Match Found")
+            search.save()
     except Exception as ex:
         latest_search_list = SequenceSearch.objects.order_by('-search_timestamp')[:5]
         context = { 'latest_search_list': latest_search_list,
