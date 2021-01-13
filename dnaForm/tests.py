@@ -22,4 +22,5 @@ class SequenceSearchTests(TestCase):
 
     def test_find_match(self):
         """ should throw an exception on an incorrect sequence"""
-        self.assertEquals(SequenceSearch.findMatches("GGGAGAACCAGGTGGGATTGACAGTGGTAAATGTGTTGACCA"), ["NC_000852"])
+        match_path = SequenceSearch.findMatches("GGGAGAACCAGGTGGGATTGACAGTGGTAAATGTGTTGACCA").file_path
+        self.assertEquals(match_path, "/Users/jonah.spear/Development/ProteinFinder/dnaForm/proteins/NC_000852.faa")

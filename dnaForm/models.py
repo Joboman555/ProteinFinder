@@ -1,5 +1,6 @@
 import os
 from django.db import models
+from .match import Match
 from Bio import SeqIO
 
 # Represents one search of one sequence
@@ -29,13 +30,11 @@ class SequenceSearch(models.Model):
                            yield(os.path.join(root, file))
 
                 # get sequences in proteins folder
-        matches = []
         for seq_file in absoluteFilePaths("./dnaForm/proteins/"):
-            print(seq_file)
             for seq_record in SeqIO.parse(seq_file, "fasta"):
                 if sequence in seq_record:
-                    matches.append(seq_file)
-        return matches
+                    return Match(seq_file, seq_record, sequence)
+
 
 
 
