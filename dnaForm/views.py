@@ -18,7 +18,7 @@ def detail(request, sequence_search_id):
 
 def start(request):
     try :
-        sequence = SequenceSearch.validate(request.POST['seq'])
+        sequence = SequenceSearch.clean(request.POST['seq'])
         search = SequenceSearch(sequence=sequence, search_timestamp=timezone.now())
         search.save()
     except Exception as ex:

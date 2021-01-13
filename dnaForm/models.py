@@ -8,7 +8,7 @@ class SequenceSearch(models.Model):
     def __str__(self):
             return self.sequence
 
-    def validate(sequence):
+    def clean(sequence):
         if len(sequence) < 1:
             raise Exception("Search sequence cannot be empty")
         for letter in sequence.upper():
