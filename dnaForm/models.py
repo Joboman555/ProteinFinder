@@ -1,4 +1,6 @@
+import os
 from django.db import models
+from Bio import SeqIO
 
 # Represents one search of one sequence
 class SequenceSearch(models.Model):
@@ -15,5 +17,29 @@ class SequenceSearch(models.Model):
             if letter not in ['A', 'C', 'T', 'G']:
                 raise Exception("Invalid character in DNA Sequence: %s" % letter)
         return sequence.upper()
+
+
+
+    def findMatches(sequence):
+
+         # gets all file handles in folder
+        def absoluteFilePaths(directory):
+           for root, dirs, files in os.walk(os.path.abspath(directory)):
+                       for file in files:
+                           yield(os.path.join(root, file))
+
+                # get sequences in proteins folder
+        matches = []
+        for seq_file in absoluteFilePaths("./dnaForm/proteins/"):
+            print(seq_file)
+            for seq_record in SeqIO.parse(seq_file, "fasta"):
+                if sequence in seq_record:
+                    matches.append(seq_file)
+        return matches
+
+
+
+
+
 
 

@@ -19,3 +19,7 @@ class SequenceSearchTests(TestCase):
     def test_clean_incorrect_sequence(self):
         """ should throw an exception on an incorrect sequence"""
         self.assertRaises(Exception, SequenceSearch.clean, "ACTX")
+
+    def test_find_match(self):
+        """ should throw an exception on an incorrect sequence"""
+        self.assertEquals(SequenceSearch.findMatches("GGGAGAACCAGGTGGGATTGACAGTGGTAAATGTGTTGACCA"), ["NC_000852"])
