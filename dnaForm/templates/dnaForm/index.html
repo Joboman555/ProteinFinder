@@ -15,11 +15,12 @@
 {% if latest_search_list %}
 <ul style="margin-top:34;">
     {% for search in latest_search_list %}
-
-    <p>Sequence: {{ search.sequence }}</p>
-    <p>Protein: {{ search.protein_name }}</p>
-    <p>Position: {{ search.position}}</p>
+    <il>
+    <p id="sequence">Sequence: {{ search.sequence }}</p>
+    <p id="protein">Protein: {{ search.protein_name }}</p>
+    <p id="position">Position: {{ search.position}}</p>
     <hr>
+    </il>
     {% endfor %}
 </ul>
 {% else %}
@@ -28,13 +29,22 @@
 
 <script>
     function foo(){
-        console.log('function is being called')
         $.get("/form/ajax/get_results/", function(data, status){
-            //alert("Data: " + data + "\nStatus: " + status);
+            // alert("Data: " + data + "\nStatus: " + status);
+            window.data = data;
+            parsed_data = JSON.parse(data)
+
+            $( "il" ).each(function( i ) {
+                $(this).find("#sequence").text("Sequence: " + parsed_data[i].fields.sequence);
+                $(this).find("#protein").text("Protein: " + parsed_data[i].fields.protein_name);
+                $(this).find("#position").text("Position: " + parsed_data[i].fields.position);
+
+            });
         });
 
     }
 
     setInterval(function(){
-        foo()}, 3000)
+        foo()}, 1500)
 </script>
+
