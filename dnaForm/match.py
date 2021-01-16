@@ -9,3 +9,6 @@ class Match:
     def getProteinName(self):
         base=os.path.basename(self.file_path)
         return os.path.splitext(base)[0]
+
+    def getPosition(self):
+        return self.full_sequence.seq.find(self.search_sequence)

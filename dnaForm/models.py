@@ -9,6 +9,7 @@ class SequenceSearch(models.Model):
     search_timestamp = models.DateTimeField()
     protein_sequence = models.CharField(max_length=1000)
     protein_name = models.CharField(max_length=20)
+    position = models.IntegerField()
 
     def __str__(self):
             return self.sequence

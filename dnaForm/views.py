@@ -24,13 +24,15 @@ def start(request):
             search = SequenceSearch(sequence=sequence,
                                     search_timestamp=timezone.now(),
                                     protein_sequence=match.full_sequence,
-                                    protein_name=match.getProteinName())
+                                    protein_name=match.getProteinName(),
+                                    position=match.getPosition())
             search.save()
         else:
             search = SequenceSearch(sequence=sequence,
                                     search_timestamp=timezone.now(),
                                     protein_sequence="-",
-                                    protein_name="No Match Found")
+                                    protein_name="No Match Found",
+                                    position=-1)
             search.save()
     except Exception as ex:
         latest_search_list = SequenceSearch.objects.order_by('-search_timestamp')[:5]
