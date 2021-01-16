@@ -2,6 +2,7 @@ import os
 from django.db import models
 from .match import Match
 from Bio import SeqIO
+from celery.decorators import task
 
 # Represents one search of one sequence
 class SequenceSearch(models.Model):
@@ -10,6 +11,7 @@ class SequenceSearch(models.Model):
     protein_sequence = models.CharField(max_length=1000)
     protein_name = models.CharField(max_length=20)
     position = models.IntegerField()
+    still_running = models.BooleanField()
 
     def __str__(self):
             return self.sequence
@@ -44,6 +46,25 @@ class SequenceSearch(models.Model):
         if files_traversed == 0:
             raise Exception("No protein files to look at. Please run getProteins.py from command line.")
         return None
+
+
+    # updates the database with the search results
+    # this is run async
+    @task(name="run_protein_search")
+    def runSearch(search_id):
+        search = SequenceSearch.objects.get(pk=search_id)
+        match = SequenceSearch.findMatches(search.sequence)
+        if match is not None:
+            search.protein_sequence=match.full_sequence
+            search.protein_name=match.getProteinName()
+            search.position=match.getPosition()
+            search.still_running=False
+        else:
+            search.protein_sequence="-"
+            search.protein_name="No Match Found"
+            search.position=-1
+            search.still_running=False
+        search.save()
 
 
 
