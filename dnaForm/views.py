@@ -41,4 +41,4 @@ def start(request):
         context = { 'latest_search_list': latest_search_list,
                     'error_message': repr(ex) }
         return render(request, 'dnaForm/index.html', context)
-    return redirect('/form/')
+    return redirect('/')

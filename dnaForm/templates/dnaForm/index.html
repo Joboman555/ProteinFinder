@@ -29,7 +29,7 @@
 
 <script>
     function foo(){
-        $.get("/form/ajax/get_results/", function(data, status){
+        $.get("/ajax/get_results/", function(data, status){
             // alert("Data: " + data + "\nStatus: " + status);
             window.data = data;
             parsed_data = JSON.parse(data)
