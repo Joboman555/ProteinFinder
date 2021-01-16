@@ -31,11 +31,17 @@ class SequenceSearch(models.Model):
                        for file in files:
                            yield(os.path.join(root, file))
 
-                # get sequences in proteins folder
+        # get sequences in proteins folder
+        files_traversed = 0
         for seq_file in absoluteFilePaths("./dnaForm/proteins/"):
+            files_traversed += 1
             for seq_record in SeqIO.parse(seq_file, "fasta"):
                 if sequence in seq_record:
                     return Match(seq_file, seq_record, sequence)
+
+        # this means getProteins.py hasn't been run, because protein files haven't been populated
+        if files_traversed == 0:
+            raise Exception("No protein files to look at. Please run getProteins.py from command line.")
         return None
 
 
