@@ -11,12 +11,13 @@
 
 
 {% if latest_search_list %}
-<ul>
+<ul style="margin-top:34;">
     {% for search in latest_search_list %}
+
     <p>Sequence: {{ search.sequence }}</p>
     <p>Protein: {{ search.protein_name }}</p>
     <p>Position: {{ search.position}}</p>
-
+    <hr>
     {% endfor %}
 </ul>
 {% else %}
