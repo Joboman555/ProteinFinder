@@ -1,3 +1,3 @@
 web: gunicorn ProteinFinder.wsgi
 worker: celery -A ProteinFinder worker -l info
-p
+release: python manage.py migrate
