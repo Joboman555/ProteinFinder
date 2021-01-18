@@ -4,7 +4,7 @@ This is a small application that allows you to find matching proteins from a tin
 
 ## Using the Application
 
-Please visit <Insert link to running application here>.
+Please visit https://protein-finder-jspear.herokuapp.com/
 
 Type a dna sequence into the text input and search away. For long-running queries the results will update every 1.5 seconds.
 
@@ -39,6 +39,7 @@ This was a really fun project. I learned and re-learned a lot of cool things. In
 3. Using celery for django async tasks
 4. Using redis
 5. Passing and parsing JSON responses from get requests.
+6. How to configure heroku with django, celery, and postgres
 
 ## Areas for improvement
 
@@ -48,10 +49,12 @@ If I had more time to devote to this application, here are the things that I wou
 
 Current UI is very bare/minimal; I didn't even use a css file. :o
 
-#### 2. Use a production-ready database. 
 
-I'm using the default database that comes with django. If this application were to be used widely, I would migrate it to a database that could handle more concurrent load, such as postgres.
-
-#### 3. Add smart page reloading.
+#### 2. Add smart page reloading.
 
 Currently the page reloads every 1.5 seconds, whether there is data that needs to be fetched or not. A better alternative is to store whether the backend is processing data, and only fetch more data while there are queries that are still running. If I did this then we could set the re-fetch time much lower than 1.5 milliseconds.
+
+
+#### 3. Add a caching layer
+
+A way to improve the result speed significantly would be to add caching using something like memcache. This would make queries that have been run before, run much faster.
