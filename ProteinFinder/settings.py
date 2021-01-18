@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 import django_heroku
+import os
+import psycopg2
 
 from pathlib import Path
 
@@ -76,10 +78,23 @@ WSGI_APPLICATION = 'ProteinFinder.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
+from django.core.exceptions import ImproperlyConfigured
+
+def get_env_variable(var_name):
+    try:
+        return os.environ[var_name]
+    except KeyError:
+        error_msg = "Set the %s environment variable" % var_name
+        raise ImproperlyConfigured(error_msg)
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mydb', #get_env_variable('DATABASE_NAME'),
+        'USER': 'myusername',
+        'PASSWORD': 'mypassword', #get_env_variable('DATABASE_PASSWORD'),'
+        'HOST': '',
+        'PORT': '',
     }
 }
 
@@ -133,3 +148,10 @@ CELERY_TIMEZONE = 'UTC'
 
 # Activate Django-Heroku.
 django_heroku.settings(locals())
+
+
+
+# DATABASE_URL = os.environ['DATABASE_URL']
+# conn = psycopg2.connect(DATABASE_URL, sslmode='require')
+# import dj_database_url
+# DATABASES['default'] = dj_database_url.config(conn_max_age=600, ssl_require=True)

@@ -52,6 +52,7 @@ class SequenceSearch(models.Model):
     # this is run async
     @task(name="run_protein_search")
     def runSearch(search_id):
+        print("-----------------------------------Running search")
         search = SequenceSearch.objects.get(pk=search_id)
         match = SequenceSearch.findMatches(search.sequence)
         if match is not None:
