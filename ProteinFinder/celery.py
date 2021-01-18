@@ -12,8 +12,10 @@ app = Celery('ProteinFinder')
 app.config_from_object('django.conf:settings')
 app.autodiscover_tasks(lambda: settings.INSTALLED_APPS)
 
-app.conf.update(BROKER_URL=os.environ['REDIS_URL'],
-                CELERY_RESULT_BACKEND=os.environ['REDIS_URL'])
+broker_url = os.environ['REDIS_URL'] if 'REDIS_URL' in os.environ else 'redis://localhost:6379'
+celery_result_backend = os.environ['REDIS_URL'] if 'REDIS_URL' in os.environ else  'redis://localhost:6379'
+app.conf.update(BROKER_URL=broker_url,
+                CELERY_RESULT_BACKEND=celery_result_backend)
 
 
 
